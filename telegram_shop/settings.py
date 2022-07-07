@@ -146,3 +146,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TELEGRAM_BOT_TOKEN = '5494707928:AAFujbekNwEBa7soMvkDR7FjFmVc0ntdvPY'
 TELEGRAM_PROVIDER_TOKEN = '284685063:TEST:ZmMwYjBhYjRjN2Jk'
+
+
+import django_on_heroku
+django_on_heroku.settings(locals())
