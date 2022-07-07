@@ -1,0 +1,141 @@
+{% load static %}
+{% load decimal_extras %}
+
+<html class="light" style="--tg-viewport-height: 100vh; --tg-viewport-stable-height: 100vh" lang="ru">
+	<head>
+		<meta charset="utf-8" />
+		<title>DurgerKingBot</title>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+		/>
+		<meta name="format-detection" content="telephone=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="MobileOptimized" content="176" />
+		<meta name="HandheldFriendly" content="True" />
+		<meta name="robots" content="noindex, nofollow" />
+		<script src="https://tg.dev/js/telegram-web-app.js"></script>
+		<script>
+			function setThemeClass() {
+				document.documentElement.className =
+					Telegram.WebApp.colorScheme;
+			}
+			Telegram.WebApp.onEvent("themeChanged", setThemeClass);
+			setThemeClass();
+		</script>
+		<link href="{% static '/css/main.css' %}" rel="stylesheet" />
+	</head>
+	<body class="">
+        <section class="cafe-categories">
+            {% for category in categories %}
+                <a data-category="{{ category.slug }}">{{ category.name }}</a>
+            {% endfor %}
+
+        </section>
+
+		<section class="cafe-page cafe-items">
+            {% for product in products %}
+                <div class="cafe-item js-item" data-category="{{ product.category.slug }}" data-item-id="{{ product.id }}" data-item-price="{{ product.price.normalize|multiply }}">
+
+                    <div class="cafe-item-counter js-item-counter">1</div>
+
+                    <div class="cafe-item-photo">
+                        <picture class="cafe-item-lottie js-item-lottie">
+                            <img src="{{ product.picture.url }}" alt="">
+                            <canvas width="74" height="74"></canvas>
+                        </picture>
+                    </div>
+
+                    <div class="cafe-item-label">
+                        <span class="cafe-item-title">{{ product.title }}</span>
+                        <span class="cafe-item-price">{{ product.price.normalize }}₽</span>
+                    </div>
+
+                    <div class="cafe-item-buttons">
+                        <button class="cafe-item-decr-button js-item-decr-btn button-item ripple-handler">
+                                <span class="ripple-mask">
+                                    <span class="ripple"></span>
+                                </span>
+                        </button>
+
+                        <button class="cafe-item-incr-button js-item-incr-btn button-item ripple-handler">
+                            <span class="button-item-label">+</span>
+                            <span class="ripple-mask">
+                                    <span class="ripple"></span>
+                                </span>
+                        </button>
+                    </div>
+
+                </div>
+
+            {% endfor %}
+            
+			<div class="cafe-item-shadow"></div>
+			<div class="cafe-item-shadow"></div>
+			<div class="cafe-item-shadow"></div>
+			<div class="cafe-item-shadow"></div>
+		</section>
+		<section class="cafe-page cafe-order-overview">
+			<div class="cafe-block">
+				<div class="cafe-order-header-wrap">
+					<h2 class="cafe-order-header">Ваша корзина</h2>
+					<span class="cafe-order-edit js-order-edit">Изменить</span>
+				</div>
+				<div class="cafe-order-items">
+
+                    {% for product in products %}
+
+                        <div class="cafe-order-item js-order-item" data-item-id="{{ product.id }}">
+                            <div class="cafe-order-item-photo">
+                                <picture class="cafe-item-lottie js-item-lottie">
+                                    <img src="{{ product.picture.url }}" alt="">
+                                    <canvas width="256" height="256"></canvas>
+                                </picture>
+                            </div>
+                            <div class="cafe-order-item-label">
+                                <div class="cafe-order-item-title">
+                                    {{ product.title.strip }}
+                                    <span class="cafe-order-item-counter">
+                                        <span class="js-order-item-counter">1</span>x
+                                    </span>
+                                </div>
+                                <div class="cafe-order-item-description">{{ product.description }}</div>
+                            </div>
+                            <div class="cafe-order-item-price js-order-item-price">
+                                {{ product.price.normalize }}₽
+                            </div>
+                        </div>
+
+                    {% endfor %}
+				</div>
+			</div>
+			<div class="cafe-text-field-wrap">
+				<textarea
+					class="cafe-text-field js-order-comment-field cafe-block"
+					rows="1"
+					placeholder="Примечание к заказу..."
+				></textarea>
+				<div class="cafe-text-field-hint">
+					Любые особые пожелания, детали и т.д.
+				</div>
+			</div>
+		</section>
+
+
+		<script src="https://tg.dev/js/jquery.min.js"></script>
+
+		<script src="{% static 'js/main.js' %}"></script>
+
+        <script>
+            Cafe.init(
+                {
+                    "apiUrl":"\/api",
+                    "userId": Telegram.WebApp.initDataUnsafe.user.id,
+                    "firstCategory": "helsinki"
+                }
+            );
+        </script>
+
+
+	</body>
+</html>

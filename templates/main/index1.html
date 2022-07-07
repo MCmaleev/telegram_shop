@@ -1,0 +1,36 @@
+{% extends 'main/layouts/base.html' %}
+
+{% block site_title %}
+    test
+{% endblock %}
+
+{% block content %}
+    <section class="shop-categories">
+        {% for category in categories %}
+            {% if category.products.all|length > 0 %}
+                <button>{{ category.name }}<br></button>
+            {% endif %}
+
+            {% for product in category.products.all %}
+                {{ product.title }} - {{ product.price }}
+            {% endfor %}
+
+        {% endfor %}
+    </section>
+
+
+{#    <section class="cafe-page cafe-items">#}
+{#        {% for product in products %}#}
+{#            <div class="cafe-item js-item">#}
+{#                <div class="cafe-item-photo cafe-item-lottie">#}
+{#                    <img src="{{ product.picture.url }}" alt="item-photo">#}
+{#                </div>#}
+{##}
+{#                <div class="cafe-item-label">#}
+{#                    <span class="cafe-item-title">{{ product.title }}</span>#}
+{#                    <span class="cafe-item-price">{{ product.price }} руб.</span>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </section>#}
+{% endblock %}
